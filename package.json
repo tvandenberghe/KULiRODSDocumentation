@@ -1,0 +1,20 @@
+{
+  "name": "KULiRODSDocumentation",
+  "version": "1.0.0",
+  "description": "This repository contains user-level documentation for the KU Leuven iRODS infrastructure (ManGO). It is a copy of the original VscDocumentation. Pages are rendered using the KU Leuven huisstijl.",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitea.icts.kuleuven.be:u0155170/KULiRODSDocumentation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

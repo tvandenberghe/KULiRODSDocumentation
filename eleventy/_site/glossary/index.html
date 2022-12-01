@@ -1,0 +1,259 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Glossary</title>
+  <link rel="stylesheet" href="/css/kuleuven.css" type="text/css" />
+</head>
+
+
+<body>
+<div class="l-page">
+<nav class="global-header noindex hidden-print">
+      <div class="container">
+        <a class="navbar-brand" href="https://www.kuleuven.be/english/"><img class="logo" alt="logo"
+            src="https://stijl.kuleuven.be/releases/latest/img/svg/logo.svg" width="157" height="56" /></a>
+        <div class="controls">
+          <a class="btn btn-ext btn-home" href="https://www.kuleuven.be/english/">KU Leuven Home</a>
+          <a href="#" class="btn-toggle js-flyout-toggle flyout-toggle collapsed" role="button" aria-expanded="false"
+            aria-controls="flyout-local-menu" data-toggle="collapse" data-target="#flyout-local-menu"><span
+              class="lines"></span></a>
+        </div>
+      </div>
+    </nav>
+
+
+    <nav class="local-header">
+      <div class="container container-relative">
+        <nav class="nav-header">
+          <h2>
+            <a href="/index.html">KU Leuven ManGO documentation</a>
+            <a href="#" class="btn-toggle hidden-lg-up" role="button" aria-expanded="false" data-toggle="collapse"
+              data-target="#local-header" aria-controls="local-header">
+              <span class="lines"></span>
+            </a>
+          </h2>
+
+          <ul class="langswitch hidden-md-down">
+            <li class="dropdown">
+              <a href="#" id="lang-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                  class="material-icons">language</i> EN
+                <i class="material-icons" aria-hidden="true">keyboard_arrow_down</i></a>
+              <ul class="dropdown-menu" aria-labelledby="lang-menu">
+                <li><a href="#">Nederlands</a></li>
+                <li><a href="#" class="active">English</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+
+        <nav class="nav-tabs nav-more collapse" id="local-header">
+        <ul><li><a class="reference internal" href="/introduction_to_mango/">Introduction to ManGO</a></li><li><a class="reference internal" href="/iCommands/">iCommands</a></li><li><a class="reference internal" href="/mango_portal/">Mango Portal</a></li><li><a class="reference internal" href="/workflow_automation/">Workflow automation</a></li><li><a class="reference internal" href="/python_client/">Python API Client - PRC</a></li><li><a class="reference internal" href="/network_file_system_clients/">Network File System interfaces</a></li><li><strong><a class="reference internal" href="/glossary/">Glossary</a></strong></li></ul>
+        </nav>
+      </div>
+    </nav>
+
+
+    <div role="main">
+      <div class="container">
+        <div role="navigation" aria-label="related navigaton">
+          <a href="workflow_automation.html" title="Workflow automation" accesskey="P">previous</a> |
+          <a href="../genindex.html" title="General Index" accesskey="I">index</a>
+        </div>
+
+        <div class="documentwrapper">
+          <div class="bodywrapper">
+            <div class="body" role="main">
+
+              <div class="section">
+                <h1>Glossary</h1>
+                <h1>Glossary of iRODS</h1>
+<p><strong>API</strong></p>
+<p>An Application Programming Interface (API) is a computing interface to enable other software to communicate with it. Basically, an API specifies how software components should interact. iRODS defines a client API and expects that clients connect and communicate with iRODS servers in this controlled manner. iRODS has an API written in C, and another written in Java (Jargon). Other languages have wrappers around the C API (Python, PHP, etc.).</p>
+<p><strong>AVU</strong></p>
+<p>Attribute-Value-Unit (AVU) triples are associated with Collections or Data Objects and are the building blocks of metadata.</p>
+<p><strong>Client</strong></p>
+<p>A client in the iRODS client-server architecture gives users an interface to interact with iRODS to manipulate iRODS objects based on users' account profile and access level. iRODS clients include: WebDAV clients, web interfaces, iCommands, Python API etc. The programming clients are more fully fledged and also allow users to automate some repetitive works.</p>
+<p><strong>Collection</strong></p>
+<p>A Collection is the logical representation of physical containers,
+similar to directories or folders that are found in a file system. A Collection can have sub-collections, and hence provides a hierarchical structure.</p>
+<p><strong>Grid</strong></p>
+<p>The hardware, operating system, and other machinery that support a Zone.</p>
+<p><strong>Data Object</strong></p>
+<p>A Data Object is a data file that is stored in iRODS. It is given a unique internal identifier in iRODS (allowing a global name space), and is associated with (situated in) a single Collection.</p>
+<p><strong>iCAT</strong></p>
+<p>The iCAT, or iRODS Metadata Catalog, is a database (e.g. PostgreSQL,
+MySQL, Oracle) that stores references to and between the iRODS entities in an iRODS Zone: Data Objects, Collections, Users and Groups. It also stores information such as system metadata, the mapping between logical and physical storage locations and user-defined metadata (AVUs). There is one iCAT per iRODS Zone.</p>
+<p><strong>iCommands</strong></p>
+<p>iCommands are Unix utilities that give users a command-line interface to operate on data in the iRODS system. iCommands provide the most comprehensive set of client-side standard iRODS manipulation functions.</p>
+<p><strong>Inheritance</strong></p>
+<p>Collections have an attribute named Inheritance. When a Collection has this attribute set to Enabled, new Data Objects and Collections added to this Collection inherit the access permissions (ACLs) of the Collection.</p>
+<p><strong>Logical Name</strong></p>
+<p>This a virtual identifier used by iRODS to uniquely name a Data Object,
+Collection, Resource, or User.</p>
+<p><strong>Metadata</strong></p>
+<p>Metadata is data about data. Metadata can include system or user-defined attributes associated with a Data Object, Collection or Resource stored in the iCAT database. The metadata is in the form of AVUs (attribute-value-unit tuples).</p>
+<p><strong>Microservice</strong></p>
+<p>Microservices are small, well-defined procedures/functions that perform a certain server-side task and are either compiled into the iRODS server code or packaged independently as shared objects. Rules invoke Microservices to implement data management policies.</p>
+<p><strong>Policy Enforcement Point (PEP)</strong></p>
+<p>An event trigger in iRODS is called a PEP (Policy Enforcement Point) and it invokes an interpreted rule script via the rule engine configured in iRODS' server for the purpose of influencing a data management operation.</p>
+<p><strong>Replica</strong></p>
+<p>An identical, physical copy of a Data Object on another storage server.</p>
+<p><strong>Resources</strong></p>
+<p>A resource, or storage resource, is a software/hardware system that stores digital data. iRODS clients can operate on local or remote data stored on different types of resources through a common interface.</p>
+<p><strong>Rules</strong></p>
+<p>Rules are definitions of actions that are to be performed by the server.
+These actions are defined in multiple ways, depending on the language that is used to define the actions. The native language in iRODS is the iRODS Rule Language that defines actions with microservices and other actions.</p>
+<p><strong>Rule Engine</strong></p>
+<p>The Rule Engine interprets Rules written in one of the supported rule engine plugin languages.</p>
+<p><strong>Server</strong></p>
+<p>An iRODS server is software that interacts with the access protocol of a specific storage system. It enables storing and sharing data distributed geographically and across administrative domains.</p>
+<p><strong>Vault</strong></p>
+<p>The physical location of Data Objects on a storage device.</p>
+<p><strong>Workflow</strong></p>
+<p>Some form of computation or action performed on Data Objects, with a specific start and end point.</p>
+<p><strong>Zone</strong></p>
+<p>An iRODS deployment is called a Zone.</p>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+
+
+
+    <footer class="local-footer">
+      <div class="footer-info">
+        <div role="navigation" aria-label="related navigaton">
+          <a href="workflow_automation.html" title="Workflow automation">previous</a> |
+          <a href="../genindex.html" title="General Index">index</a>
+        </div>
+        <div class="reactionfull">
+          <p class="lastmodified" style="margin-bottom: 0;">
+            Laatste update: 09-11-2022
+          </p>
+          <span>Reacties op inhoud en toegankelijkheid:</span>
+          <a class="reaction" href="mailto:rdm-icts@kuleuven.be">FOZ-RDM</a>
+        </div>
+        <div role="note" aria-label="source link">
+          <br />
+          <a href="../_sources/data/glossary.rst.txt" rel="nofollow">Show Source</a>
+        </div>
+      </div>
+      <div class="footer-navbar">
+        <div class="container">
+          <div class="fheader row container">
+            <div class="flogo"></div>
+
+          </div>
+          <div id="subnav" class="row">
+
+            <nav class="noindex static noborder col-sml-4">
+              <div class="sidebar">
+
+                <h4>Table of Contents</h4>
+<ul><li><a class="reference internal" href="/mango/data_discovery/">Data Discovery</a></li>
+        <li><a class="reference internal" href="/introduction_to_mango/">Introduction to ManGO</a></li>
+        <li><a class="reference internal" href="/iCommands/">iCommands</a></li>
+        <li><a class="reference internal" href="/mango_portal/">Mango Portal</a></li>
+        <li><a class="reference internal" href="/workflow_automation/">Workflow automation</a></li>
+        <li><a class="reference internal" href="/mango/mango_service/">Mango service</a></li>
+        <li><a class="reference internal" href="/python_client/">Python API Client - PRC</a></li>
+        <li><a class="reference internal" href="/mango/user_access/">User access</a></li>
+        <li><a class="reference internal" href="/network_file_system_clients/">Network File System interfaces</a></li>
+        <li><a class="reference internal" href="/mango/mango_architecture/">ManGO Architecture</a></li>
+        <li><strong><a class="reference internal" href="/glossary/">Glossary</a></strong></li>
+        </ul>
+                <div role="search">
+                  <h4>Search</h4>
+                  <form class="search" action="../search.html" method="get">
+                    <input style="display: inline;" type="text" name="q" />
+                    <input style="display: inline;" type="submit" value="Go" />
+                  </form>
+                </div>
+
+              </div>
+            </nav>
+
+          </div>
+
+        </div>
+      </div>
+    </footer>
+    <footer class="global-footer noindex hidden-print">
+      <div class="bottom-footer-kuleuven">
+        <div class="container">
+          <div class="legal">
+            <a href="https://www.kuleuven.be/kuleuven" class="logo" title="KU Leuven"><img class="logo-img" alt="logo"
+                src="https://stijl.kuleuven.be/releases/latest/img/svg/logo.svg" width="107" height="38" /></a>
+            <ul>
+              <li>
+                <a href="https://www.kuleuven.be/kuleuven/disclaimer.html">Disclaimer</a>
+              </li>
+              <li>
+                <a href="https://admin.kuleuven.be/icts/english/cookiepolicy/">Cookie Settings</a>
+              </li>
+              <li>
+                <a href="https://admin.kuleuven.be/privacy/en/">Privacy Policy</a>
+              </li>
+            </ul>
+          </div>
+          <div class="share">
+            <span>Follow KU&nbsp;Leuven on</span>
+            <a href="https://www.facebook.com/KULeuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>facebook</title>
+                <path
+                  d="M1376 128q119 0 203.5 84.5T1664 416v960q0 119-84.5 203.5T1376 1664h-188v-595h199l30-232h-229V689q0-56 23.5-84t91.5-28l122-1V369q-63-9-178-9-136 0-217.5 80T948 666v171H748v232h200v595H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://twitter.com/KU_Leuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>twitter</title>
+                <path
+                  d="M1408 610q-56 25-121 34 68-40 93-117-65 38-134 51-61-66-153-66-87 0-148.5 61.5T883 722q0 29 5 48-129-7-242-65T454 550q-29 50-29 106 0 114 91 175-47-1-100-26v2q0 75 50 133.5t123 72.5q-29 8-51 8-13 0-39-4 21 63 74.5 104t121.5 42q-116 90-261 90-26 0-50-3 148 94 322 94 112 0 210-35.5t168-95 120.5-137 75-162T1304 746q0-18-1-27 63-45 105-109zm256-194v960q0 119-84.5 203.5T1376 1664H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960q119 0 203.5 84.5T1664 416z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://instagram.com/kuleuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>instagram</title>
+                <path
+                  d="M1490 1426V778h-135q20 63 20 131 0 126-64 232.5T1137 1310t-240 62q-197 0-337-135.5T420 909q0-68 20-131H299v648q0 26 17.5 43.5T360 1487h1069q25 0 43-17.5t18-43.5zm-284-533q0-124-90.5-211.5T897 594q-127 0-217.5 87.5T589 893t90.5 211.5T897 1192q128 0 218.5-87.5T1206 893zm284-360V368q0-28-20-48.5t-49-20.5h-174q-29 0-49 20.5t-20 48.5v165q0 29 20 49t49 20h174q29 0 49-20t20-49zm174-208v1142q0 81-58 139t-139 58H325q-81 0-139-58t-58-139V325q0-81 58-139t139-58h1142q81 0 139 58t58 139z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/school/ku_leuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>linkedin</title>
+                <path
+                  d="M365 1414h231V720H365v694zm246-908q-1-52-36-86t-93-34-94.5 34-36.5 86q0 51 35.5 85.5T479 626h1q59 0 95-34.5t36-85.5zm585 908h231v-398q0-154-73-233t-193-79q-136 0-209 117h2V720H723q3 66 0 694h231v-388q0-38 7-56 15-35 45-59.5t74-24.5q116 0 116 157v371zm468-998v960q0 119-84.5 203.5T1376 1664H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960q119 0 203.5 84.5T1664 416z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/user/kuleuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>youtube</title>
+                <path
+                  d="M1047 1303v-157q0-50-29-50-17 0-33 16v224q16 16 33 16 29 0 29-49zm184-122h66v-34q0-51-33-51t-33 51v34zM660 915v70h-80v423h-74V985h-78v-70h232zm201 126v367h-67v-40q-39 45-76 45-33 0-42-28-6-16-6-54v-290h66v270q0 24 1 26 1 15 15 15 20 0 42-31v-280h67zm252 111v146q0 52-7 73-12 42-53 42-35 0-68-41v36h-67V915h67v161q32-40 68-40 41 0 53 42 7 21 7 74zm251 129v9q0 29-2 43-3 22-15 40-27 40-80 40-52 0-81-38-21-27-21-86v-129q0-59 20-86 29-38 80-38t78 38q21 28 21 86v76h-133v65q0 51 34 51 24 0 30-26 0-1 .5-7t.5-16.5V1281h68zM913 457v156q0 51-32 51t-32-51V457q0-52 32-52t32 52zm533 713q0-177-19-260-10-44-43-73.5t-76-34.5q-136-15-412-15-275 0-411 15-44 5-76.5 34.5T366 910q-20 87-20 260 0 176 20 260 10 43 42.5 73t75.5 35q137 15 412 15t412-15q43-5 75.5-35t42.5-73q20-84 20-260zM691 519l90-296h-75l-51 195-53-195h-78l24 69 23 69q35 103 46 158v201h74V519zm289 81V470q0-58-21-87-29-38-78-38-51 0-78 38-21 29-21 87v130q0 58 21 87 27 38 78 38 49 0 78-38 21-27 21-87zm181 120h67V350h-67v283q-22 31-42 31-15 0-16-16-1-2-1-26V350h-67v293q0 37 6 55 11 27 43 27 36 0 77-45v40zm503-304v960q0 119-84.5 203.5T1376 1664H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960q119 0 203.5 84.5T1664 416z">
+                </path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+</div>
+</body>
+</html>

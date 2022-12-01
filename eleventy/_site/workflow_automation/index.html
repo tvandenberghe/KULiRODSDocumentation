@@ -1,0 +1,466 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Workflow automation</title>
+  <link rel="stylesheet" href="/css/kuleuven.css" type="text/css" />
+</head>
+
+
+<body>
+<div class="l-page">
+<nav class="global-header noindex hidden-print">
+      <div class="container">
+        <a class="navbar-brand" href="https://www.kuleuven.be/english/"><img class="logo" alt="logo"
+            src="https://stijl.kuleuven.be/releases/latest/img/svg/logo.svg" width="157" height="56" /></a>
+        <div class="controls">
+          <a class="btn btn-ext btn-home" href="https://www.kuleuven.be/english/">KU Leuven Home</a>
+          <a href="#" class="btn-toggle js-flyout-toggle flyout-toggle collapsed" role="button" aria-expanded="false"
+            aria-controls="flyout-local-menu" data-toggle="collapse" data-target="#flyout-local-menu"><span
+              class="lines"></span></a>
+        </div>
+      </div>
+    </nav>
+
+
+    <nav class="local-header">
+      <div class="container container-relative">
+        <nav class="nav-header">
+          <h2>
+            <a href="/index.html">KU Leuven ManGO documentation</a>
+            <a href="#" class="btn-toggle hidden-lg-up" role="button" aria-expanded="false" data-toggle="collapse"
+              data-target="#local-header" aria-controls="local-header">
+              <span class="lines"></span>
+            </a>
+          </h2>
+
+          <ul class="langswitch hidden-md-down">
+            <li class="dropdown">
+              <a href="#" id="lang-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                  class="material-icons">language</i> EN
+                <i class="material-icons" aria-hidden="true">keyboard_arrow_down</i></a>
+              <ul class="dropdown-menu" aria-labelledby="lang-menu">
+                <li><a href="#">Nederlands</a></li>
+                <li><a href="#" class="active">English</a></li>
+              </ul>
+            </li>
+          </ul>
+        </nav>
+
+        <nav class="nav-tabs nav-more collapse" id="local-header">
+        <ul><li><a class="reference internal" href="/introduction_to_mango/">Introduction to ManGO</a></li><li><a class="reference internal" href="/iCommands/">iCommands</a></li><li><a class="reference internal" href="/mango_portal/">Mango Portal</a></li><li><strong><a class="reference internal" href="/workflow_automation/">Workflow automation</a></strong></li><li><a class="reference internal" href="/python_client/">Python API Client - PRC</a></li><li><a class="reference internal" href="/network_file_system_clients/">Network File System interfaces</a></li><li><a class="reference internal" href="/glossary/">Glossary</a></li></ul>
+        </nav>
+      </div>
+    </nav>
+
+
+    <div role="main">
+      <div class="container">
+        <div role="navigation" aria-label="related navigaton">
+          <a href="workflow_automation.html" title="Workflow automation" accesskey="P">previous</a> |
+          <a href="../genindex.html" title="General Index" accesskey="I">index</a>
+        </div>
+
+        <div class="documentwrapper">
+          <div class="bodywrapper">
+            <div class="body" role="main">
+
+              <div class="section">
+                <h1>Workflow automation</h1>
+                <h1>Workflow automation</h1>
+<p>iRODS provides a Rule System to automate data management tasks. Each
+organisation or project has its own policies and needs with regards to
+file housekeeping and metadata extraction. Examples of file operations
+are making regular backups, checking file integrity, cleaning up
+permissions, emptying the trash,... Metadata can be extracted from data
+files or accompanying text files to be stored to the iCAT catalog. This
+frees human users of having to apply repetitive actions, and ensures
+policies are applied consistently and without error.</p>
+<p>This is made possible by the Rule Engine Plugin Framework (REPF), which
+executes the rules and keeps track of the execution state of all active
+rules (as rules can be immediate, have a delay or a condition). The
+framework keeps track of both User-level rules and System-level rules.</p>
+<p>User-level rules are stored locally and manually invoked by any user
+using the <code>irule</code> command, which runs it in the iRODS server. They are
+meant for personal or group use (if the user is part of that group) and
+are typically simple 'one-shot' workflow operations. System-defined
+rules are stored server-side by an iRODS developer or administrator and
+automatically invoked by the Rule Engine when a certain condition is
+met. This condition is called an 'event' or more formally a Policy
+Enforcement Point (PEP). They are meant for consistent data management
+of a whole zone or for complex group/project data management tasks.</p>
+<p>Rules can be invoked in three ways: by directly calling the <code>irule</code>
+command on a rule file (only for User-level rules); by reaching a Policy
+Enforcement Point, triggering a System-level rule; or periodically via
+Delay rules (both for User-level and System-level rules).
+Resource-heavy, time-intensive processes are best executed as a
+system-level delay rules.</p>
+<p>The Python iRODS Client (PRC) is executed client-side, making it
+somewhat less efficient than iRODS rule execution. Although both offer
+overlapping functionality, the delay mechanism used by iRODS rules is
+more graceful and these rules get stored centrally in the REPF. It is
+also possible to invoke a rule via the PRC.</p>
+<p>This article focuses only on User-level rules. If you have more complex
+data processing pipelines, the Tier-1 Data Team (FOZ-RDM) at KU Leuven
+can create System-level rules for you. Please contact us at
+<a href="mailto:data@vscentrum.be">data@vscentrum.be</a>.</p>
+<h2>Rule syntax</h2>
+<p>Rules can be written in Python, C++ or the iRODS Rule language. However,
+normal users can (for the time being) only execute rules written in the
+iRODS Rule language (either User-level or System-level rules). The iRODS
+Rule language is a domain specific scripting language composed of simple
+building blocks. It uses curly brackets, # for comments, variable names
+start with '*' and strings are enclosed by ' or &quot;. The
+documentation for the language can be found here:
+<a href="https://docs.irods.org/4.2.10/plugins/irods_rule_language/">https://docs.irods.org/4.2.10/plugins/irods_rule_language/</a>.</p>
+<pre><code>rulename{             # rulename, like 'extractMetaDataRule', followed by the body block
+    on(condition){    # condition is optional
+        delay(delay){ # delay is optional
+            list of actions
+        }
+    }                 # condition is optional
+}
+
+input INPUT           # input is optional
+output OUTPUT
+</code></pre>
+<p>A rulefile can contain more than one rulename blocks, although only the
+first one gets executed. The second one can get called by the first one
+in the list of actions and its output can be saved as a variable for the
+caller. Some of the elements are optional. A rule without condition or
+delay gets executed immediately, once. 'Input' variables are optional
+(or can be set to null) and can be used to store a global variable for
+all rules inside the rulefile or prompt for user input.</p>
+<p>It is not illegal syntax to use a condition in a user-level rule, but
+the conditions can't be used to track system events similar to a what a
+PEP does.</p>
+<h2>Executing rules</h2>
+<p>This rule prints 'Hello World' to the terminal:</p>
+<pre><code>helloWorldRule{
+    writeLine('stdout', 'Hello World!');
+}
+
+output ruleExecOut
+</code></pre>
+<p><code>output ruleExecOut</code> indicates that this rule is executable. Save this
+code in a file called myFirstRule.r and call it by issuing:</p>
+<pre><code>$ irule -F myFirstRule.r
+</code></pre>
+<p>As said, we can call rules like this, just as if they would be
+functions:</p>
+<pre><code>firstRule{
+    writeLine('stdout', 'This is my first rule');
+    secondRule()
+}
+
+secondRule{
+    writeLine('stdout', 'This is my second rule');
+}
+
+output ruleExecOut
+</code></pre>
+<h2>Variables and user input</h2>
+<p>Variables can be assigned to in the body block or in an input variable.
+You can concatenate string variables with the '++' operator.</p>
+<pre><code>advancedHelloWorldRule{
+    #you can define a variable here
+    *var1=&quot;Hello &quot;;
+    writeLine('stdout', *var1 ++ *var2);
+}
+
+#you can also define a variable here
+input *var2=&quot;World&quot;
+output ruleExecOut
+</code></pre>
+<p>We can also prompt the user for input by assigning a variable to '$',
+with an optional default value. In the next example, the <code>greeting1</code>
+variable can be either set to what the user types or kept at its default
+value 'Hello' by hitting enter. When typing your prompted value, it
+should be enclosed with single or double quotes. Also note that
+variables are expanded in quoted strings.</p>
+<pre><code>evenMoreAdvancedHelloWorldRule{
+    writeLine(&quot;stdout&quot;,&quot;User says '*greeting1 *greeting2'&quot;)
+}
+input *greeting1 = $'Hello', *greeting2 = $'World'
+output ruleExecOut
+</code></pre>
+<p>There are also session state variables, for instance to retrieve the
+active user:</p>
+<pre><code>veryAdvancedHelloWorldRule{
+    writeLine(&quot;stdout&quot;,&quot;$userNameClient says '*greeting1 *greeting2'&quot;)
+}
+input *greeting1 = $'Hello', *greeting2 = $'World'
+output ruleExecOut
+</code></pre>
+<p>Another useful session state variable for User-level rules is
+<code>$rodsZoneClient</code> for the zone name. There are other session variables
+(like <code>$collName</code>, <code>$objPath</code>, <code>$dataType</code>, <code>$dataSize</code>, <code>$chksum</code>,...)
+but these are only useful for System-level rules as they are out of
+scope in a User-level rule.</p>
+<h2>Querying iRODS</h2>
+<p>Just like in the iquest iCommand and with the PRC we can query iCAT and
+retrieve matching fields for entities (data objects or collections).
+These fields are called 'Persistent State Information'. Rules can also
+access 'Session state information', such as the <code>$userNameClient</code>
+variable above. To see which persistent fields are available, use
+<code>iquest attrs</code>.</p>
+<p>The following rule prints all data objects whose logical path contains
+the word 'test'. Note that COLL_NAME is the whole path with the
+collection name at the end:</p>
+<pre><code>queryRule{
+    foreach(*i in SELECT COLL_NAME, DATA_NAME WHERE COLL_NAME like '%test%'){
+        *coll = *i.COLL_NAME;
+        *data = *i.DATA_NAME;
+        writeLine(&quot;stdout&quot;, &quot;*coll/*data&quot;);
+    }
+    writeLine(&quot;stdout&quot;, &quot;listing done&quot;);
+}
+</code></pre>
+<h2>Microservices and custom functions</h2>
+<p>iRODS already provides a whole library of functions to interact with it
+via the Rule system, called microservices. Microservices are written in
+C within the iRODS source code. These can be called in the rule body as
+any other action.</p>
+<p>You can find an overview of all available microservices in the <a href="https://docs.irods.org/4.2.8/">iRODS
+documentation</a> under the tab
+<a href="https://docs.irods.org/4.2.8/doxygen/">Doxygen</a>. These pages also
+contain their function arguments and types.</p>
+<p>There are microservices for rule management, manipulating data objects,
+collections and their metadata, managing the iCAT database,... It also
+includes basic functions like email (<code>msiSendStdoutAsEmail</code>), string and
+key-value manipulation. The following example creates a new collection:</p>
+<pre><code>createCollRule {
+        *path=&quot;/$rodsZoneClient/home/$userNameClient/newCollection&quot;;
+        msiCollCreate(*path, 0, *Status);
+        writeLine(&quot;stdout&quot;, &quot;Collection *path created&quot;);
+
+} 
+output ruleExecOut
+</code></pre>
+<p>You can of course also save data objects from a local disk with the
+<code>msiDataObjPut</code> microservice. As an input variable you should use the
+absolute path of a file. The second argument for <code>msiDataObjPut</code> is the
+iRODS resource where you want to save the file. A resource, or storage
+resource, is a software/hardware system that stores digital data. You
+can identify the available resources with the <code>ilsresc</code> command.</p>
+<pre><code>createDORule {
+        *path=&quot;/$rodsZoneClient/home/$userNameClient/newCollection&quot;
+        *destName=&quot;test.txt&quot;
+        writeLine(&quot;stdout&quot;, &quot;Saving file *path/*destName ...&quot;)
+        msiDataObjPut(&quot;*path/*destName&quot;,&quot;default&quot;,&quot;localPath=*file++++forceFlag=&quot;,*Status)
+        writeLine(&quot;stdout&quot;, &quot;File *path/*file created&quot;)
+}
+
+input *file=&quot;/home/x/y/z/test.txt&quot;
+output ruleExecOut
+</code></pre>
+<p>In your rulefile, you can define functions to contain oft-used
+functionality. Functions can be thought of as microservices written in
+the rule language and are called similarly. It's also possible to pass
+variables to a function, and let it return its result.</p>
+<pre><code>functionRule {
+    *c = sq(5)
+    writeLine('stdout',*c)
+}
+
+sq(*a){
+        *b=*a * *a
+        *b
+}
+
+input null
+output ruleExecOut
+</code></pre>
+<h2>Delayed execution rules</h2>
+<p>A rule action can be executed (as a System-level rule or with <code>irule</code>)
+at a certain point in the future by delaying it or scheduling it at a
+certain time. To express this, a timing syntax based on XML is provided:</p>
+<blockquote>
+<ul>
+<li>ET: Absolute time when something should be performed, for instance
+at 8:00 PM: &lt;ET&gt;20:00&lt;/ET&gt;.</li>
+<li>PLUSET: Delay execution for a certain amount of time from now, for
+instance &lt;PLUSET&gt;10s&lt;/PLUSET&gt; or &lt;PLUSET&gt;1m&lt;/PLUSET&gt;.</li>
+<li>EF: Perform execution every n time units, for a certain amount of
+time. The default is forever. For instance, &lt;EF&gt;1d&lt;/EF&gt; for
+daily.</li>
+</ul>
+</blockquote>
+<p>The full syntax is provided
+<a href="https://docs.irods.org/4.2.10/plugins/pluggable_rule_engine/#examples">here</a>.</p>
+<pre><code>backupRule{
+        delay(&quot;&lt;ET&gt;00:00&lt;/ET&gt;&lt;PLUSET&gt;1d&lt;/PLUSET&gt;&quot;){
+            msiTarFileCreate(*file,*coll,*resource,*flag);
+            writeLine(&quot;stdout&quot;,&quot;Created tar file *file for collection *coll on resource *resc&quot;);
+        }
+}
+input *file=&quot;/$rodsZoneClient/home/$userNameClient/backup_newCollection.tar&quot;, *coll=&quot;/$rodsZoneClient/home/$userNameClient/newCollection&quot;, *resource=&quot;default&quot;, *flag=&quot;force&quot;
+output ruleExecOut
+</code></pre>
+<p>This backs up the provided collection daily at midnight. You can test
+this delay rule has been executed by replacing it with
+'&lt;ET&gt;00:00&lt;/ET&gt;&lt;PLUSET&gt;1m&lt;/PLUSET&gt;' and calling <code>ils -l</code> to
+see the timestamp changing.</p>
+<p>The following example syncs between 2 collections in 10 seconds from now
+and repeats it hourly, forever:</p>
+<pre><code>syncRule{
+    delay(&quot;&lt;PLUSET&gt;10s&lt;/PLUSET&gt;&lt;EF&gt;1h&lt;/EF&gt;&quot;){
+            msiCollRsync(*srcColl,*destColl,*resource,&quot;IRODS_TO_IRODS&quot;,*Status);
+            writeLine(&quot;stdout&quot;,&quot;Synchronized collection *srcColl with collection *destColl&quot;);
+    }
+}
+
+input *srcColl=&quot;/$rodsZoneClient/home/$userNameClient/newCollection&quot;, *destColl=&quot;/$rodsZoneClient/home/$userNameClient/newCollection_sync&quot;,*resource=&quot;default&quot;
+output RuleExecOut
+</code></pre>
+<p>There are three useful iCommands to track the active delayed rules:</p>
+<ul>
+<li><code>iqstat</code>: show the queue status of delayed rules, and note the id</li>
+<li><code>iqmod</code>: modify certain values in existing delayed rules (owned by
+you)</li>
+<li><code>iqdel</code>: remove a delayed rule (owned by you) from the queue, by
+giving the id</li>
+</ul>
+
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    
+
+
+
+    <footer class="local-footer">
+      <div class="footer-info">
+        <div role="navigation" aria-label="related navigaton">
+          <a href="workflow_automation.html" title="Workflow automation">previous</a> |
+          <a href="../genindex.html" title="General Index">index</a>
+        </div>
+        <div class="reactionfull">
+          <p class="lastmodified" style="margin-bottom: 0;">
+            Laatste update: 09-11-2022
+          </p>
+          <span>Reacties op inhoud en toegankelijkheid:</span>
+          <a class="reaction" href="mailto:rdm-icts@kuleuven.be">FOZ-RDM</a>
+        </div>
+        <div role="note" aria-label="source link">
+          <br />
+          <a href="../_sources/data/glossary.rst.txt" rel="nofollow">Show Source</a>
+        </div>
+      </div>
+      <div class="footer-navbar">
+        <div class="container">
+          <div class="fheader row container">
+            <div class="flogo"></div>
+
+          </div>
+          <div id="subnav" class="row">
+
+            <nav class="noindex static noborder col-sml-4">
+              <div class="sidebar">
+
+                <h4>Table of Contents</h4>
+<ul><li><a class="reference internal" href="/mango/data_discovery/">Data Discovery</a></li>
+        <li><a class="reference internal" href="/introduction_to_mango/">Introduction to ManGO</a></li>
+        <li><a class="reference internal" href="/iCommands/">iCommands</a></li>
+        <li><a class="reference internal" href="/mango_portal/">Mango Portal</a></li>
+        <li><strong><a class="reference internal" href="/workflow_automation/">Workflow automation</a></strong></li>
+        <li><a class="reference internal" href="/mango/mango_service/">Mango service</a></li>
+        <li><a class="reference internal" href="/python_client/">Python API Client - PRC</a></li>
+        <li><a class="reference internal" href="/mango/user_access/">User access</a></li>
+        <li><a class="reference internal" href="/network_file_system_clients/">Network File System interfaces</a></li>
+        <li><a class="reference internal" href="/mango/mango_architecture/">ManGO Architecture</a></li>
+        <li><a class="reference internal" href="/glossary/">Glossary</a></li>
+        </ul>
+                <div role="search">
+                  <h4>Search</h4>
+                  <form class="search" action="../search.html" method="get">
+                    <input style="display: inline;" type="text" name="q" />
+                    <input style="display: inline;" type="submit" value="Go" />
+                  </form>
+                </div>
+
+              </div>
+            </nav>
+
+          </div>
+
+        </div>
+      </div>
+    </footer>
+    <footer class="global-footer noindex hidden-print">
+      <div class="bottom-footer-kuleuven">
+        <div class="container">
+          <div class="legal">
+            <a href="https://www.kuleuven.be/kuleuven" class="logo" title="KU Leuven"><img class="logo-img" alt="logo"
+                src="https://stijl.kuleuven.be/releases/latest/img/svg/logo.svg" width="107" height="38" /></a>
+            <ul>
+              <li>
+                <a href="https://www.kuleuven.be/kuleuven/disclaimer.html">Disclaimer</a>
+              </li>
+              <li>
+                <a href="https://admin.kuleuven.be/icts/english/cookiepolicy/">Cookie Settings</a>
+              </li>
+              <li>
+                <a href="https://admin.kuleuven.be/privacy/en/">Privacy Policy</a>
+              </li>
+            </ul>
+          </div>
+          <div class="share">
+            <span>Follow KU&nbsp;Leuven on</span>
+            <a href="https://www.facebook.com/KULeuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>facebook</title>
+                <path
+                  d="M1376 128q119 0 203.5 84.5T1664 416v960q0 119-84.5 203.5T1376 1664h-188v-595h199l30-232h-229V689q0-56 23.5-84t91.5-28l122-1V369q-63-9-178-9-136 0-217.5 80T948 666v171H748v232h200v595H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://twitter.com/KU_Leuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>twitter</title>
+                <path
+                  d="M1408 610q-56 25-121 34 68-40 93-117-65 38-134 51-61-66-153-66-87 0-148.5 61.5T883 722q0 29 5 48-129-7-242-65T454 550q-29 50-29 106 0 114 91 175-47-1-100-26v2q0 75 50 133.5t123 72.5q-29 8-51 8-13 0-39-4 21 63 74.5 104t121.5 42q-116 90-261 90-26 0-50-3 148 94 322 94 112 0 210-35.5t168-95 120.5-137 75-162T1304 746q0-18-1-27 63-45 105-109zm256-194v960q0 119-84.5 203.5T1376 1664H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960q119 0 203.5 84.5T1664 416z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://instagram.com/kuleuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>instagram</title>
+                <path
+                  d="M1490 1426V778h-135q20 63 20 131 0 126-64 232.5T1137 1310t-240 62q-197 0-337-135.5T420 909q0-68 20-131H299v648q0 26 17.5 43.5T360 1487h1069q25 0 43-17.5t18-43.5zm-284-533q0-124-90.5-211.5T897 594q-127 0-217.5 87.5T589 893t90.5 211.5T897 1192q128 0 218.5-87.5T1206 893zm284-360V368q0-28-20-48.5t-49-20.5h-174q-29 0-49 20.5t-20 48.5v165q0 29 20 49t49 20h174q29 0 49-20t20-49zm174-208v1142q0 81-58 139t-139 58H325q-81 0-139-58t-58-139V325q0-81 58-139t139-58h1142q81 0 139 58t58 139z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://www.linkedin.com/school/ku_leuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>linkedin</title>
+                <path
+                  d="M365 1414h231V720H365v694zm246-908q-1-52-36-86t-93-34-94.5 34-36.5 86q0 51 35.5 85.5T479 626h1q59 0 95-34.5t36-85.5zm585 908h231v-398q0-154-73-233t-193-79q-136 0-209 117h2V720H723q3 66 0 694h231v-388q0-38 7-56 15-35 45-59.5t74-24.5q116 0 116 157v371zm468-998v960q0 119-84.5 203.5T1376 1664H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960q119 0 203.5 84.5T1664 416z">
+                </path>
+              </svg>
+            </a>
+            <a href="https://www.youtube.com/user/kuleuven/">
+              <svg role="img" width="30" height="30" viewBox="0 0 1792 1792">
+                <title>youtube</title>
+                <path
+                  d="M1047 1303v-157q0-50-29-50-17 0-33 16v224q16 16 33 16 29 0 29-49zm184-122h66v-34q0-51-33-51t-33 51v34zM660 915v70h-80v423h-74V985h-78v-70h232zm201 126v367h-67v-40q-39 45-76 45-33 0-42-28-6-16-6-54v-290h66v270q0 24 1 26 1 15 15 15 20 0 42-31v-280h67zm252 111v146q0 52-7 73-12 42-53 42-35 0-68-41v36h-67V915h67v161q32-40 68-40 41 0 53 42 7 21 7 74zm251 129v9q0 29-2 43-3 22-15 40-27 40-80 40-52 0-81-38-21-27-21-86v-129q0-59 20-86 29-38 80-38t78 38q21 28 21 86v76h-133v65q0 51 34 51 24 0 30-26 0-1 .5-7t.5-16.5V1281h68zM913 457v156q0 51-32 51t-32-51V457q0-52 32-52t32 52zm533 713q0-177-19-260-10-44-43-73.5t-76-34.5q-136-15-412-15-275 0-411 15-44 5-76.5 34.5T366 910q-20 87-20 260 0 176 20 260 10 43 42.5 73t75.5 35q137 15 412 15t412-15q43-5 75.5-35t42.5-73q20-84 20-260zM691 519l90-296h-75l-51 195-53-195h-78l24 69 23 69q35 103 46 158v201h74V519zm289 81V470q0-58-21-87-29-38-78-38-51 0-78 38-21 29-21 87v130q0 58 21 87 27 38 78 38 49 0 78-38 21-27 21-87zm181 120h67V350h-67v283q-22 31-42 31-15 0-16-16-1-2-1-26V350h-67v293q0 37 6 55 11 27 43 27 36 0 77-45v40zm503-304v960q0 119-84.5 203.5T1376 1664H416q-119 0-203.5-84.5T128 1376V416q0-119 84.5-203.5T416 128h960q119 0 203.5 84.5T1664 416z">
+                </path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+</div>
+</body>
+</html>

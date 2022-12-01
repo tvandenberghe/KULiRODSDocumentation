@@ -1,0 +1,43 @@
+<h1>Mapping drive-WebDAV</h1>
+<p>In order to perform more actions -drag and drop (install/download),
+rename, delete and modify- you can map your WebDAV share as a network
+drive.</p>
+<p>How to access iRODS using WebDAV on a Windows 10 pc:</p>
+<ul>
+<li>Go to File Explorer and select This PC on the left hand pane.</li>
+<li>Select Computer from the top ribbon.</li>
+<li>Click on Map Network Drive.</li>
+</ul>
+<p><img src="webdav/map1.png" alt="image"></p>
+<p>::: {.note}
+::: {.title}
+Note
+:::</p>
+<p>Since the password you obtained is temporary, you need to reprocess
+these steps after your password is expired.
+:::</p>
+<ul>
+<li>Choose the drive name you want to use.</li>
+<li>Type &quot;<a href="https://irods.hpc.kuleuven.be:8443/home/">https://irods.hpc.kuleuven.be:8443/home/</a>&quot; in the &quot;Folder&quot;
+text box. This is the path that you can find in your browser
+directory_index.</li>
+</ul>
+<p><img src="webdav/map2.png" alt="image"></p>
+<ul>
+<li>Click finish button.</li>
+</ul>
+<p><img src="webdav/map3.png" alt="image"></p>
+<ul>
+<li>Enter your user name vscXXXXX.</li>
+<li>Paste the password you obtained and saved earlier.</li>
+<li>Click &quot;Ok&quot;.</li>
+</ul>
+<p><img src="webdav/map4.png" alt="image"></p>
+<ul>
+<li>You should be able to see your connection in network locations.</li>
+</ul>
+<p><img src="webdav/map5.png" alt="image"></p>
+<p>Once you're connected, the WebDAV directory is mounted in your local
+pc. After you click on the WebDAV directory you will see your iRODS
+collections and data objects. You can now start adding, editing and
+deleting files in this directory from the comfort of your computer.</p>
